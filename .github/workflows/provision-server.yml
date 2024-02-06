@@ -23,7 +23,7 @@ jobs:
           mkdir -p ~/.ansible
           echo "[targets]" > ~/.ansible/hosts
           echo "${{ github.event.inputs.server_ip }}" ansible_user=${{ github.event.inputs.username }} >> ~/.ansible/hosts
-          opt/pipx_bin/ansible-playbook site.yml --inventory ~/.ansible/hosts --key-file .ansible_key
+          /usr/local/bin/ansible-playbook site.yml --inventory ~/.ansible/hosts --key-file .ansible_key
         env:
           ANSIBLE_HOST_KEY_CHECKING: "false"
           ANSIBLE_DEPRECATION_WARNINGS: "false"
