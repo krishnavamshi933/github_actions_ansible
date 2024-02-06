@@ -1,5 +1,2 @@
-# requirements.yml
-
-- name: nginx_role
-  src: nginxinc.nginx
-  version: v0.13.0
+- name: nginxinc.nginx
+  version: 0.24.1
