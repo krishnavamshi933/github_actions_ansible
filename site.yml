@@ -1,7 +1,6 @@
-# site.yml
-
 - name: Install and configure Apache
-  hosts: all
+  hosts: "{{ target_host }}"
+  remote_user: "{{ target_user }}"
   become: yes
   tasks:
     - name: Add message to Apache index.html
