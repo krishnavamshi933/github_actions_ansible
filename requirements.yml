@@ -1,3 +1,31 @@
-- name: geerlingguy.apache
-  src: geerlingguy.apache
-  version: 3.1.6
+# apache_installation.yml
+
+- name: Install Apache HTTP Server
+  hosts: all
+  remote_user: ubuntu
+  gather_facts: false
+  tasks:
+    - name: Download Apache HTTP Server archive
+      get_url:
+        url: https://dlcdn.apache.org/httpd/httpd-2.4.58.tar.bz2
+        dest: /tmp/httpd-2.4.58.tar.bz2
+
+    - name: Extract Apache HTTP Server archive
+      unarchive:
+        src: /tmp/httpd-2.4.58.tar.bz2
+        dest: /opt
+        remote_src: yes
+
+    - name: Configure Apache HTTP Server
+      command: /opt/httpd-2.4.58/configure
+      args:
+        chdir: /opt/httpd-2.4.58
+
+    - name: Compile Apache HTTP Server
+      make:
+        chdir: /opt/httpd-2.4.58
+
+    - name: Install Apache HTTP Server
+      command: make install
+      args:
+        chdir: /opt/httpd-2.4.58
