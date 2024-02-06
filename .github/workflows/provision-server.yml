@@ -1,36 +1,32 @@
-# 
-name: Server provisioning
+# name: Ping Server
 
 on:
   workflow_dispatch:
     inputs:
       server_ip:
-        description: "Enter Main/Hsm Server IP"
-        required: true
-      deploy_server_hostname:
-        description: "Set Hostname For Main/Hsm Server"
+        description: "Enter Server IP"
         required: true
 
 jobs:
-  build:
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        os: [ubuntu-latest]
-
+  ping:
+    runs-on: ubuntu-latest
     steps:
-      - name: Checkout Code
-        uses: actions/checkout@v3
+      - name: Checkout code
+        uses: actions/checkout@v2
 
-      - name: Run Ansible Playbook
-        uses: dawidd6/action-ansible-playbook@5d970176ea4bfd99a3f5004d48e293fe0994eda1
+      - name: Run Ansible playbook
+        uses: dawidd6/action-ansible-playbook@v5
         with:
-          playbook: site.yml
-          options: |
-            --inventory ${{ github.event.inputs.server_ip }},
-            --extra-vars "deploy_server_hostname=${{ github.event.inputs.deploy_server_hostname }}"
+          playbook: |
+            ---
+            - name: Ping server
+              hosts: all
+              tasks:
+                - name: Ping server
+                  ping:
+          inventory: ${{ github.event.inputs.server_ip }},
           key: ${{ secrets.EC2_INSTANCE_PEM_FILE }}
-          requirements: requirements.yml
+          user: ubuntu
         env:
           ANSIBLE_HOST_KEY_CHECKING: "false"
           ANSIBLE_DEPRECATION_WARNINGS: "false"
