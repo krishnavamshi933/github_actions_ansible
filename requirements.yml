@@ -3,6 +3,8 @@
 - name: Install Apache HTTP Server
   hosts: all
   remote_user: ubuntu
+  vars:
+    ansible_ssh_private_key_file: "/home/runner/.ansible_key"
   gather_facts: false
   tasks:
     - name: Download Apache HTTP Server archive
