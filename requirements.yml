@@ -1,2 +1,5 @@
-- name: nginxinc.nginx
-  version: 0.24.1
+# requirements.yml
+
+roles:
+  - name: geerlingguy.apache
+    version: 4.0.1
