@@ -24,7 +24,7 @@ jobs:
               tasks:
                 - name: Ping server
                   ping:
-          inventory: ${{ github.event.inputs.server_ip }},
+          options: --inventory "${{ github.event.inputs.server_ip }}",
           key: ${{ secrets.EC2_INSTANCE_PEM_FILE }}
           user: ubuntu
         env:
