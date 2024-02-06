@@ -6,6 +6,9 @@ on:
       server_ip:
         description: "Enter Main/HSM Server IP"
         required: true
+      username:
+        description: "Enter the username to use for provisioning"
+        required: true
 
 jobs:
   provision_server:
@@ -23,8 +26,8 @@ jobs:
             --inventory ${{ github.event.inputs.server_ip }}
           key: ${{ secrets.EC2_INSTANCE_PEM_FILE }}
           requirements: requirements.yml
-          extra-vars: '{"remote_user": "ubuntu"}'
+          extra-vars: '{"remote_user": "${{ github.event.inputs.username }}"}'
         env:
           ANSIBLE_HOST_KEY_CHECKING: "false"
           ANSIBLE_DEPRECATION_WARNINGS: "false"
-          #ANSIBLE_DEBUG: "1"
+          ANSIBLE_DEBUG: "1"
