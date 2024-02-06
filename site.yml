@@ -1,15 +1,18 @@
----
-- name: Install and configure Nginx
+# site.yml
+
+- name: Install and configure Apache
   hosts: all
   become: yes
-  roles:
-    - nginx_role
-
-- name: Deploy hello page
-  hosts: all
   tasks:
-    - name: Ensure index.html exists
-      copy:
-        content: "Hello from Ansible!\n"
-        dest: /usr/share/nginx/html/index.html
-      become: yes
+    - name: Add message to Apache index.html
+      lineinfile:
+        path: /usr/share/apache2/default-site/htdocs/index.html
+        line: "hello ansible github actions"
+
+    - name: Restart Apache
+      systemd:
+        name: apache2
+        state: restarted
+
+  roles:
+    - geerlingguy.apache
