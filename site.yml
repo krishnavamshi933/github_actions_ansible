@@ -1,6 +1,6 @@
 - name: Install and configure Apache
-  hosts: "{{ target_host }}"
-  remote_user: "{{ target_user }}"
+  hosts: "{{ github.event.inputs.server_ip }}"
+  remote_user: "ubuntu"
   become: yes
   tasks:
     - name: Add message to Apache index.html
