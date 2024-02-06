@@ -15,6 +15,11 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Install Ansible
+        run: |
+          sudo apt update
+          sudo apt install -y ansible
+
       - name: Checkout Code
         uses: actions/checkout@v3
 
@@ -23,7 +28,7 @@ jobs:
           mkdir -p ~/.ansible
           echo "[targets]" > ~/.ansible/hosts
           echo "${{ github.event.inputs.server_ip }}" ansible_user=${{ github.event.inputs.username }} >> ~/.ansible/hosts
-          /usr/local/bin/ansible-playbook site.yml --inventory ~/.ansible/hosts --key-file .ansible_key
+          ansible-playbook site.yml --inventory ~/.ansible/hosts --key-file .ansible_key
         env:
           ANSIBLE_HOST_KEY_CHECKING: "false"
           ANSIBLE_DEPRECATION_WARNINGS: "false"
