@@ -23,6 +23,9 @@ jobs:
           SERVER_IP: ${{ github.event.inputs.server_ip }}
           USERNAME: ${{ github.event.inputs.username }}
           SSH_KEY: ${{ secrets.EC2_INSTANCE_PEM_FILE }}
+          ANSIBLE_HOST_KEY_CHECKING: "false"
+          ANSIBLE_DEPRECATION_WARNINGS: "false"
+          #ANSIBLE_DEBUG: "1"
         run: |
           mkdir -p ~/.ssh
           echo "$SSH_KEY" > ~/.ssh/id_rsa
