@@ -26,7 +26,7 @@ jobs:
             --inventory ${{ github.event.inputs.server_ip }}
           key: ${{ secrets.EC2_INSTANCE_PEM_FILE }}
           requirements: requirements.yml
-          extra-vars: '{"target_host": "${{ github.event.inputs.server_ip }}", "target_user": "${{ github.event.inputs.username }}"}'
+          extra-vars: '{"remote_user": "${{ github.event.inputs.username }}"}'
         env:
           ANSIBLE_HOST_KEY_CHECKING: "false"
           ANSIBLE_DEPRECATION_WARNINGS: "false"
