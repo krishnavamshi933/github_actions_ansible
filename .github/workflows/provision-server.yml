@@ -1,77 +1,6 @@
-# # .github/workflows/provision-server.yml
-
-# #name: Server Provisioning
-
-# on:
-#   workflow_dispatch:
-#     inputs:
-#       server_ip:
-#         description: "Enter Main/HSM Server IP"
-#         required: true
-#       deploy_server_hostname:
-#         description: "Set Hostname For Main/HSM Server"
-#         required: true
-
-# jobs:
-#   provision_server:
-#     runs-on: ubuntu-latest
-
-#     steps:
-#       - name: Checkout Code
-#         uses: actions/checkout@v3
-
-#       - name: Run Ansible Playbook
-#         uses: dawidd6/action-ansible-playbook@5d970176ea4bfd99a3f5004d48e293fe0994eda1
-#         with:
-#           playbook: site.yml
-#           options: |
-#             --inventory ${{ github.event.inputs.server_ip }},
-#             --extra-vars "deploy_server_hostname=${{ github.event.inputs.deploy_server_hostname }}"
-#           key: ${{ secrets.EC2_INSTANCE_PEM_FILE }}
-#           requirements: requirements.yml
-#         env:
-#           ANSIBLE_HOST_KEY_CHECKING: "false"
-#           ANSIBLE_DEPRECATION_WARNINGS: "false"
-#           ANSIBLE_DEBUG: "1"
-# # name: Deploy to Server
-
-# # on:
-# #   push:
-# #     branches:
-# #       - main
-# #   workflow_dispatch:
-# #     inputs:
-# #       server-ip:
-# #         description: 'Server IP Address'
-# #         required: true
-# #       username:
-# #         description: 'Server Username'
-# #         required: true
-
-# # jobs:
-# #   deploy:
-
-# #     runs-on: ubuntu-latest
-
-# #     steps:
-# #     - name: Checkout Repository
-# #       uses: actions/checkout@v2
-
-# #     - name: Deploy to Server
-# #       uses: appleboy/ssh-action@master
-# #       with:
-# #         host: ${{ github.event.inputs.server-ip }}
-# #         username: ${{ github.event.inputs.username }}
-# #         key: ${{ secrets.EC2_INSTANCE_PEM_FILE }}
-# #         port: 22
-# #         script: |
-# #           rm -rf node-hello
-# #           git clone https://github.com/krishnavamshi933/node-hello.git && cd node-hello
-# #           #npm install           
-# #           #npm run build          
-# #           #pm2 restart app.js || pm2 start app.js
----
+# 
 name: Server provisioning
+
 on:
   workflow_dispatch:
     inputs:
@@ -81,48 +10,27 @@ on:
       deploy_server_hostname:
         description: "Set Hostname For Main/Hsm Server"
         required: true
-      # app_db_name:
-      #   description: "Set DB Name For Main/Hsm Server"
-      #   required: true
-​
+
 jobs:
   build:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
         os: [ubuntu-latest]
-​
+
     steps:
       - name: Checkout Code
         uses: actions/checkout@v3
-​
+
       - name: Run Ansible Playbook
         uses: dawidd6/action-ansible-playbook@5d970176ea4bfd99a3f5004d48e293fe0994eda1
-        #uses: dawidd6/action-ansible-playbook@v2
         with:
           playbook: site.yml
-          # options: --inventory hosts
           options: |
             --inventory ${{ github.event.inputs.server_ip }},
             --extra-vars "deploy_server_hostname=${{ github.event.inputs.deploy_server_hostname }}"
-         # #--extra-vars "app_db_name=${{ github.event.inputs.app_db_name }}"
-            
-          key: ${{secrets.EC2_INSTANCE_PEM_FILE}}
-          requirements: requirements.yml #galaxy req. filepath
-          #user: ubuntu #note: update this field in host file if needed!
+          key: ${{ secrets.EC2_INSTANCE_PEM_FILE }}
+          requirements: requirements.yml
         env:
           ANSIBLE_HOST_KEY_CHECKING: "false"
           ANSIBLE_DEPRECATION_WARNINGS: "false"
-        
-      # - name: Play Ansible Playbook
-      #   uses: arillso/action.playbook@1e0b62ecc3b25f83b102afbf923b997a49a1ba7b
-      #   uses: arillso/action.playbook@master
-      #   with:
-      #     playbook: site.yml
-      #     inventory: hosts
-      #     galaxy_file: requirements.yml
-      #     private_key: ${{secrets.PROVISIONING_SSH_PRIVATE_KEY}}
-      #     user: ubuntu
-      #   env:
-      #     ANSIBLE_HOST_KEY_CHECKING: "false"
-      #     ANSIBLE_DEPRECATION_WARNINGS: "false"
