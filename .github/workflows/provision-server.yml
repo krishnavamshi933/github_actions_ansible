@@ -6,9 +6,6 @@ on:
       server_ip:
         description: "Enter Main/HSM Server IP"
         required: true
-      deploy_server_hostname:
-        description: "Set Hostname For Main/HSM Server"
-        required: true
 
 jobs:
   provision_server:
@@ -23,12 +20,11 @@ jobs:
         with:
           playbook: site.yml
           options: |
-            --inventory ${{ github.event.inputs.server_ip }},
-            --extra-vars "deploy_server_hostname=${{ github.event.inputs.deploy_server_hostname }}"
+            --inventory ${{ github.event.inputs.server_ip }}
           key: ${{ secrets.EC2_INSTANCE_PEM_FILE }}
           requirements: requirements.yml
           extra-vars: '{"remote_user": "ubuntu"}'
         env:
           ANSIBLE_HOST_KEY_CHECKING: "false"
           ANSIBLE_DEPRECATION_WARNINGS: "false"
-          ANSIBLE_DEBUG: "1"
+          #ANSIBLE_DEBUG: "1"
