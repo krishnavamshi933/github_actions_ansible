@@ -1,0 +1,33 @@
+name: Deploy with Ansible
+
+on:
+  workflow_dispatch:
+    inputs:
+      server_ip:
+        description: "Enter the server IP address"
+        required: true
+      username:
+        description: "Enter the username for SSH authentication"
+        required: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Run Ansible playbook
+        env:
+          SERVER_IP: ${{ github.event.inputs.server_ip }}
+          USERNAME: ${{ github.event.inputs.username }}
+          SSH_KEY: ${{ secrets.EC2_INSTANCE_PEM_FILE }}
+        run: |
+          mkdir -p ~/.ssh
+          echo "$SSH_KEY" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          echo "Host remote-server" >> ~/.ssh/config
+          echo "  Hostname $SERVER_IP" >> ~/.ssh/config
+          echo "  User $USERNAME" >> ~/.ssh/config
+          ansible-playbook -i 'remote-server,' dep.yml
