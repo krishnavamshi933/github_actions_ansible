@@ -1,5 +1,5 @@
 - name: Install and configure Apache
-  hosts: "{{ github.event.inputs.server_ip }}"
+  hosts: "54.159.50.145"
   remote_user: "ubuntu"
   become: yes
   tasks:
