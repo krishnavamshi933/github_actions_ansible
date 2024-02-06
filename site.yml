@@ -1,5 +1,4 @@
-# site.yml
-
+---
 - name: Install and configure Nginx
   hosts: all
   become: yes
