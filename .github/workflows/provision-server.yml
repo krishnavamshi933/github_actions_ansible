@@ -12,10 +12,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v2
 
       - name: Run Ansible playbook
-        uses: dawidd6/action-ansible-playbook@5d970176ea4bfd99a3f5004d48e293fe0994eda1
+        uses: dawidd6/action-ansible-playbook@v2
         with:
           playbook: |
             ---
@@ -24,9 +24,8 @@ jobs:
               tasks:
                 - name: Ping server
                   ping:
-          options: --inventory "${{ github.event.inputs.server_ip }}",
+          options: --inventory "${{ github.event.inputs.server_ip }}"
           key: ${{ secrets.EC2_INSTANCE_PEM_FILE }}
-          user: ubuntu
         env:
           ANSIBLE_HOST_KEY_CHECKING: "false"
           ANSIBLE_DEPRECATION_WARNINGS: "false"
