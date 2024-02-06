@@ -70,9 +70,8 @@
 # #           #npm install           
 # #           #npm run build          
 # #           #pm2 restart app.js || pm2 start app.js
-
+---
 name: Server provisioning
-​
 on:
   workflow_dispatch:
     inputs:
@@ -106,7 +105,7 @@ jobs:
           options: |
             --inventory ${{ github.event.inputs.server_ip }},
             --extra-vars "deploy_server_hostname=${{ github.event.inputs.deploy_server_hostname }}"
-         #   #--extra-vars "app_db_name=${{ github.event.inputs.app_db_name }}"
+         # #--extra-vars "app_db_name=${{ github.event.inputs.app_db_name }}"
             
           key: ${{secrets.EC2_INSTANCE_PEM_FILE}}
           requirements: requirements.yml #galaxy req. filepath
