@@ -27,6 +27,7 @@ jobs:
             --extra-vars "deploy_server_hostname=${{ github.event.inputs.deploy_server_hostname }}"
           key: ${{ secrets.EC2_INSTANCE_PEM_FILE }}
           requirements: requirements.yml
+          extra-vars: '{"remote_user": "ubuntu"}'
         env:
           ANSIBLE_HOST_KEY_CHECKING: "false"
           ANSIBLE_DEPRECATION_WARNINGS: "false"
